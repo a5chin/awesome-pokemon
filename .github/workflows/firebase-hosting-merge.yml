@@ -17,11 +17,14 @@ jobs:
       - name: Add path
         run: echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
-      - name: Download Flutter packages
-        run: flutter pub get
+      - name: Find file
+        run: find */chrome.dart
 
       - name: Change setting in Flutter packages
-        run: sed '/--disable-extensions,/a "--disable-web-security"' /usr/local/flutter/packages/flutter_tools/lib/src/web/chrome.dart
+        run: sed '/--disable-extensions,/a "--disable-web-security"' $(pwd)/flutter/packages/flutter_tools/lib/src/web/chrome.dart
+
+      - name: Download Flutter packages
+        run: flutter pub get
 
       - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
