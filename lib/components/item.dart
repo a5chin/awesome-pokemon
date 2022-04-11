@@ -11,41 +11,52 @@ class PokemonGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        child: Column(
-      children: [
-        InkWell(
-            onTap: () => {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          PokemonDetail(pokemon: pokemon!),
+    if (pokemon != null) {
+      return GestureDetector(
+          child: Column(
+        children: [
+          InkWell(
+              onTap: () => {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            PokemonDetail(pokemon: pokemon!),
+                      ),
                     ),
-                  ),
-                },
-            child: Hero(
-              tag: pokemon!.name,
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: (typeColors[pokemon!.types.first] ?? Colors.grey[100])
-                      ?.withOpacity(.3),
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    fit: BoxFit.fitWidth,
-                    image: CachedNetworkImageProvider(
-                      pokemon!.imageUrl,
+                  },
+              child: Hero(
+                tag: pokemon!.name,
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color:
+                        (typeColors[pokemon!.types.first] ?? Colors.grey[100])
+                            ?.withOpacity(.3),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      fit: BoxFit.fitWidth,
+                      image: CachedNetworkImageProvider(
+                        pokemon!.imageUrl,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )),
-        Text(
-          pokemon!.name,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              )),
+          Text(
+            pokemon!.name,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ));
+    } else {
+      return const SizedBox(
+        height: 100,
+        width: 100,
+        child: Center(
+          child: Text('...'),
         ),
-      ],
-    ));
+      );
+    }
   }
 }

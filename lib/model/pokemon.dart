@@ -18,7 +18,8 @@ class Pokemon {
     required this.imageUrl,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
+  factory Pokemon.fromJson(
+      Map<String, dynamic> jsonEn, Map<String, dynamic> jsonJa) {
     List<String> typesToList(dynamic types) {
       List<String> ret = [];
       for (int i = 0; i < types.length; i++) {
@@ -28,18 +29,19 @@ class Pokemon {
     }
 
     return Pokemon(
-      id: json['id'],
-      name: json['name'],
-      types: typesToList(json['types']),
-      imageUrl: json['sprites']['other']['official-artwork']['front_default'],
+      id: jsonEn['id'],
+      name: jsonJa['names'][0]['name'],
+      types: typesToList(jsonEn['types']),
+      imageUrl: jsonEn['sprites']['other']['official-artwork']['front_default'],
     );
   }
 }
 
 Future<Pokemon> fetchPokemon(int id) async {
-  final res = await http.get(Uri.parse('$apiroot/pokemon/$id'));
-  if (res.statusCode == 200) {
-    return Pokemon.fromJson(jsonDecode(res.body));
+  final resEn = await http.get(Uri.parse('$apiroot/pokemon/$id'));
+  final resJa = await http.get(Uri.parse('$apiroot/pokemon-species/$id'));
+  if (resEn.statusCode == 200 && resJa.statusCode == 200) {
+    return Pokemon.fromJson(jsonDecode(resEn.body), jsonDecode(resJa.body));
   } else {
     throw Exception('Failed to Load Pokemon');
   }

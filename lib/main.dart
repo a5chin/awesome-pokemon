@@ -54,7 +54,7 @@ class _TopPageState extends State<TopPage> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
             ),
-            itemCount: 20,
+            itemCount: 898,
             itemBuilder: (context, index) {
               return PokemonGrid(
                 pokemon: pokemons.byId(index + 1),
