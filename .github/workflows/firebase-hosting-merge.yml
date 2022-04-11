@@ -17,6 +17,9 @@ jobs:
       - name: Add path
         run: echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
+      - name: Delete flutter_tools.stamp
+        run: rm -f $(pwd)/flutter/bin/cache/flutter_tools.stamp
+
       - name: Change setting in Flutter packages
         run: sed '207i "--disable-web-security",' $(pwd)/flutter/packages/flutter_tools/lib/src/web/chrome.dart
 
