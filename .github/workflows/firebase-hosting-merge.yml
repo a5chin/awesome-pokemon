@@ -20,6 +20,9 @@ jobs:
       - name: Download Flutter packages
         run: flutter pub get
 
+      - name: Change setting in Flutter packages
+        run: sed '/      \'--disable-extensions\',/a --disable-web-security' /usr/local/flutter/packages/flutter_tools/lib/src/web/chrome.dart
+
       - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
