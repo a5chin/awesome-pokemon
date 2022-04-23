@@ -1,0 +1,12 @@
+FROM golang:1.9-alpine as base
+WORKDIR /usr/src
+COPY . .
+RUN apk add git
+RUN CGO_ENABLED=0 go get -d -ldflags "-s -w" .
+RUN CGO_ENABLED=0 go build -ldflags "-s -w" -o main
+RUN go get github.com/gin-gonic/gin
+
+FROM scratch
+COPY --from=base /usr/src/main /go-http-microservice
+COPY --from=base /usr/src/views /go-http-microservice/views
+CMD ["/go-http-microservice"]
